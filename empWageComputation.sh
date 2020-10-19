@@ -18,6 +18,8 @@ total_wage=0
 total_absent_days=0
 total_days=0
 
+declare -a daily_wage_list
+
 get_attendance(){
 
     employee_attendance=$(( RANDOM%6 ))
@@ -67,8 +69,10 @@ do
            total_working_hours=$(( total_working_hours+per_day_work_hour ))
 
            daily_wage=$(get_daily_wage $per_day_work_hour )
-
+           
            total_wage=$(( total_wage + daily_wage ))
+
+           daily_wage_list[((total_working_days++))]=$daily_wage
 
        fi
 done
@@ -80,5 +84,7 @@ echo "Total Working Hours: "$total_working_hours
 echo "Total Wage: "$total_wage
 
 echo "Total_days: "$total_days
+
+echo "Daily Wage List: "${daily_wage_list[@]}
 
 
