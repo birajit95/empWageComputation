@@ -10,7 +10,7 @@ WAGE_PER_HOUR=20
 MAX_NO_OF_DAYS=20
 
 MAX_NO_OF_DAYS=20
-MAX_NO_OF_HOUR=100
+MAX_NO_OF_HOURS=100
 
 total_working_hours=0
 total_working_days=0
@@ -30,22 +30,26 @@ get_attendance(){
 
 }
 
-
-get_daily_wage(){
+get_per_day_work_hour(){
 
     local per_day_work_hour=0
-
     case  $(( RANDOM%2 )) in
                         0) per_day_work_hour=$FULL_TIME;;
                         1) per_day_work_hour=$PART_TIME;;
                         *) per_day_work_hour=0;;
     esac
+    echo $per_day_work_hour
+}
+
+get_daily_wage(){
+
+    local per_day_work_hour=$1
 
     echo $(( WAGE_PER_HOUR * per_day_work_hour ))
 }
 
 
-while [[ $total_working_days -le $MAX_NO_OF_DAYS && $total_days -le $MAX_NO_OF_DAYS  && $total_working_hours -le $MAX_NO_OF_HOUR ]]
+while [[ $total_working_days -le $MAX_NO_OF_DAYS && $total_days -le $MAX_NO_OF_DAYS  && $total_working_hours -le $MAX_NO_OF_HOURS ]]
 do
        ((total_days++))
 
@@ -58,7 +62,11 @@ do
 
           ((total_working_days++))
 
-           daily_wage=$(get_daily_wage)
+           per_day_work_hour=$(get_per_day_work_hour)
+
+           total_working_hours=$(( total_working_hours+per_day_work_hour ))
+
+           daily_wage=$(get_daily_wage $per_day_work_hour )
 
            total_wage=$(( total_wage + daily_wage ))
 
@@ -68,6 +76,7 @@ done
 echo "Total Working Days: " $total_working_days
 echo "Total Absent Days: " $total_absent_days
 
+echo "Total Working Hours: "$total_working_hours
 echo "Total Wage: "$total_wage
 
 echo "Total_days: "$total_days
