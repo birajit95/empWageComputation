@@ -4,6 +4,7 @@ echo 'Welcome to Employee Wage Computation Program'
 
 
 FULL_TIME=8
+PART_TIME=4
 
 WAGE_PER_HOUR=20
 
@@ -23,8 +24,14 @@ get_attendance(){
 
 get_daily_wage(){
 
-    local per_day_work_hour=$FULL_TIME
+    local per_day_work_hour=0
+
+    if [ $(( RANDOM%2 )) -eq 1 ]
+    then
+        per_day_work_hour=$FULL_TIME
+    else
+        per_day_work_hour=$PART_TIME   
+    fi
 
     echo $(( WAGE_PER_HOUR * per_day_work_hour ))
 }
-
