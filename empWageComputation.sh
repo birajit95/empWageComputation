@@ -26,12 +26,11 @@ get_daily_wage(){
 
     local per_day_work_hour=0
 
-    if [ $(( RANDOM%2 )) -eq 1 ]
-    then
-        per_day_work_hour=$FULL_TIME
-    else
-        per_day_work_hour=$PART_TIME   
-    fi
+    case  $(( RANDOM%2 )) in
+                        0) per_day_work_hour=$FULL_TIME;;
+                        1) per_day_work_hour=$PART_TIME;;
+                        *) per_day_work_hour=0;;
+    esac
 
     echo $(( WAGE_PER_HOUR * per_day_work_hour ))
 }
