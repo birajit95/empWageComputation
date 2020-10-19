@@ -9,7 +9,14 @@ PART_TIME=4
 WAGE_PER_HOUR=20
 MAX_NO_OF_DAYS=20
 
+MAX_NO_OF_DAYS=20
+MAX_NO_OF_HOUR=100
 
+total_working_hours=0
+total_working_days=0
+total_wage=0
+total_absent_days=0
+total_days=0
 
 get_attendance(){
 
@@ -38,8 +45,31 @@ get_daily_wage(){
 }
 
 
-get_monthly_wage(){
- 
- daily_wage=$( get_daily_wage )
- echo $(( daily_wage * MAX_NO_OF_DAYS ))
-}
+while [[ $total_working_days -le $MAX_NO_OF_DAYS && $total_days -le $MAX_NO_OF_DAYS  && $total_working_hours -le $MAX_NO_OF_HOUR ]]
+do
+       ((total_days++))
+
+       if [ $( get_attendance ) -eq 0 ]
+       then
+          
+          ((total_absent_days++))
+           
+       else
+
+          ((total_working_days++))
+
+           daily_wage=$(get_daily_wage)
+
+           total_wage=$(( total_wage + daily_wage ))
+
+       fi
+done
+
+echo "Total Working Days: " $total_working_days
+echo "Total Absent Days: " $total_absent_days
+
+echo "Total Wage: "$total_wage
+
+echo "Total_days: "$total_days
+
+
