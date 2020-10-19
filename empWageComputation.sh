@@ -7,6 +7,8 @@ FULL_TIME=8
 PART_TIME=4
 
 WAGE_PER_HOUR=20
+MAX_NO_OF_DAYS=20
+
 
 
 get_attendance(){
@@ -33,4 +35,11 @@ get_daily_wage(){
     esac
 
     echo $(( WAGE_PER_HOUR * per_day_work_hour ))
+}
+
+
+get_monthly_wage(){
+ 
+ daily_wage=$( get_daily_wage )
+ echo $(( daily_wage * MAX_NO_OF_DAYS ))
 }
